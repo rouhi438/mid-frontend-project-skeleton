@@ -1,6 +1,14 @@
 import "./EventCard.css";
 import { Link } from "react-router-dom";
 export default function EventCard({ event }) {
+  let ticketMessage;
+  if (event.ticketsAvailable === 0) {
+    ticketMessage = "Sold out";
+  } else if (event.ticketsAvailable < 15) {
+    ticketMessage = `Only ${event.ticketsAvailable} tickets left`;
+  } else {
+    ticketMessage = "Tickets Available";
+  }
   return (
     <li className="list-item">
       <h2 className="event-title">{event.name}</h2>
@@ -26,11 +34,8 @@ export default function EventCard({ event }) {
       </p>
 
       <p>
-        {" "}
         <strong>Tickets :</strong>
-        {event.ticketsAvailable === 0
-          ? "Sold out"
-          : `${event.ticketsAvailable} tickets left`}
+        {ticketMessage}
       </p>
       <div className="btns">
         <button type="button">Buy Ticket</button>

@@ -1,5 +1,6 @@
 .event-list {
     width: 100%;
+    max-width: 100%;
     margin: 0;
     padding: 0;
     margin: 0;
@@ -7,6 +8,8 @@
     display: grid;
     gap: 30px;
     grid-template-columns: repeat(3, 1fr);
+    box-sizing: border-box;
+
 }
 
 @media (max-width: 1024px) {
