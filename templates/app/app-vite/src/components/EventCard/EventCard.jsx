@@ -34,8 +34,10 @@ export default function EventCard({ event }) {
       </p>
 
       <p>
-        <strong>Tickets :</strong>
-        {ticketMessage}
+        <strong>Tickets : </strong>
+        <span style={{ color: event.ticketsAvailable === 0 ? "red" : "black" }}>
+          {ticketMessage}
+        </span>
       </p>
       <div className="btns">
         <button type="button">Buy Ticket</button>

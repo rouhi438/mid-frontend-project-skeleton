@@ -15,9 +15,19 @@ export default function EventList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const [page, setPage] = useState(1);
+  const [limit] = useState(20);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3001/events")
+    setError(null);
+    fetch(
+      `http://localhost:3001/events?q=${searchQuery}&_page=${page}&_limit=${limit}`,
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch events");
@@ -30,22 +40,28 @@ export default function EventList() {
       })
       .catch((error) => setError(error.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [searchQuery, page]);
   if (loading) return <p>Loading events...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const filteredEvents = events?.filter((event) =>
-    event.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
   return (
-    <ul className="event-list">
-      {filteredEvents.length > 0 ? (
-        filteredEvents.map((event) => (
-          <EventCard key={event.id} event={event} />
-        ))
-      ) : (
-        <p>No events found</p>
-      )}
-    </ul>
+    <>
+      <div className="page-change">
+        <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+          Prev
+        </button>
+
+        <span>Page {page}</span>
+
+        <button onClick={() => setPage(page + 1)}>Next</button>
+      </div>
+      <ul className="event-list">
+        {events.length > 0 ? (
+          events.map((event) => <EventCard key={event.id} event={event} />)
+        ) : (
+          <p>No events found</p>
+        )}
+      </ul>
+    </>
   );
 }
