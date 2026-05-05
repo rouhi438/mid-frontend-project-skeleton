@@ -1,58 +1,73 @@
 import { Link, Outlet } from "react-router-dom";
 import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import "./Layout.css";
 
 export default function Layout() {
   const { user, logout } = useAuth();
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation();
   return (
-    <div>
+    <div className="Layout">
       <header>
-        <nav
-          style={{
-            width: "100%",
-            display: "flex",
-            gap: "20px",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "10px 20px",
-          }}
-        >
-          <a
-            href="https://www.hackyourfuture.dk/"
-            target="_blank"
-            className="link"
-          >
-            <img
-              src={hyfLogo}
-              alt="HackYourFuture logo"
-              className="logo"
-              width={200}
-              style={{ padding: "20px" }}
-            />
-          </a>
-          {/* Navigation links go here — e.g. link to event list, cart, login */}
-          <Link to="/events" className="link">
-            Events
-          </Link>
+        <nav>
+          <div className="logo-holder">
+            <a
+              href="https://www.hackyourfuture.dk/"
+              target="_blank"
+              className="link"
+            >
+              <img
+                src={hyfLogo}
+                alt="HackYourFuture logo"
+                className="logo"
+                width={200}
+                style={{ padding: "20px" }}
+              />
+            </a>
+            {/* Navigation links go here — e.g. link to event list, cart, login */}
+          </div>
+          <div className="menu-bar">
+            <div className="link-bar">
+              <Link to="/events" className="link">
+                Events
+              </Link>
 
-          {user && (
-            <>
-              <span>{user.email}</span>
-              <button onClick={logout}>Sign out</button>
-            </>
-          )}
+              {user && (
+                <>
+                  <span>{user.email}</span>
+                  <button onClick={logout}>Sign out</button>
+                </>
+              )}
 
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </div>
+            {location.pathname === "/events" && (
+              <div className="search-holder">
+                <label htmlFor="search">Find Events</label>
+                <input
+                  type="text"
+                  id="search"
+                  placeholder="Search events..."
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                />
+              </div>
+            )}
+          </div>
         </nav>
       </header>
 
       <main>
-        <Outlet />
+        <Outlet context={{ searchQuery }} />
       </main>
 
-      <footer>{/* Footer content goes here */}</footer>
+      <footer>
+        <p>© 2026 HYF Events Startup App</p>
+      </footer>
     </div>
   );
 }
