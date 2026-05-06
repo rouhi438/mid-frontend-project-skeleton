@@ -3,6 +3,7 @@ import hyfLogo from "../../assets/hyf.svg";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { FaShoppingCart } from "react-icons/fa";
 import "./Layout.css";
 
 export default function Layout() {
@@ -13,6 +14,10 @@ export default function Layout() {
     <div className="Layout">
       <header>
         <nav>
+          <div className="cart-holder">
+            <FaShoppingCart className="cart-icon" />
+            <span className="cart-quantity">1</span>
+          </div>
           <div className="logo-holder">
             <a
               href="https://www.hackyourfuture.dk/"

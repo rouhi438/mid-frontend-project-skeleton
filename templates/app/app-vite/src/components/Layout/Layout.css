@@ -14,6 +14,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    position: relative;
 }
 
 .logo-holder {
@@ -73,6 +74,41 @@ footer {
     justify-content: center;
     border-top: 1px solid #ddd;
     background-color: rgb(217, 211, 211);
+}
+
+.cart-holder {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: rgb(186, 184, 184);
+}
+
+.cart-icon:hover {
+    transform: scale(1.15);
+    color: rgb(50, 74, 129);
+}
+
+.cart-quantity {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: rgb(193, 236, 236);
+    position: absolute;
+    font-size: 12px;
+    top: -5px;
+    right: 5px;
+    text-align: center;
+    visibility: hidden;
 }
 
 @media (max-width:500px) {
