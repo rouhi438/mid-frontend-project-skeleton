@@ -1,6 +1,8 @@
 import "./EventCard.css";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 export default function EventCard({ event }) {
+  const { addToCart } = useCart();
   let ticketMessage;
   if (event.ticketsAvailable === 0) {
     ticketMessage = "Sold out";
@@ -40,7 +42,13 @@ export default function EventCard({ event }) {
         </span>
       </p>
       <div className="btns">
-        <button type="button">Buy Ticket</button>
+        <button
+          type="button"
+          onClick={() => addToCart(event)}
+          disabled={event.ticketsAvailable === 0}
+        >
+          Buy Ticket
+        </button>
         <Link to={`/events/${event.id}`} className="details-btn">
           Event Details
         </Link>

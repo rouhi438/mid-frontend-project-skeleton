@@ -45,6 +45,17 @@ export default function EventDetail() {
           >
             +
           </button>
+          <button
+            onClick={() => {
+              for (let i = 0; i < quantity; i++) {
+                addToCart(event);
+              }
+            }}
+            disabled={event.ticketsAvailable === 0}
+            style={{ fontSize: "13px" }}
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
       <h1>{event.name}</h1>
