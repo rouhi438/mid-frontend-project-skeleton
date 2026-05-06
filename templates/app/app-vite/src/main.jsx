@@ -23,6 +23,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "events", element: <EventList /> },
       { path: "events/:id", element: <EventDetail /> },
+      { path: "cart", element: <CartPage /> },
     ],
   },
   { path: "/login", element: <Login /> },
@@ -32,10 +33,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <CartProvider>
+    <CartProvider>
+      <AuthProvider>
         <RouterProvider router={router} />
-      </CartProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </CartProvider>
   </React.StrictMode>,
 );

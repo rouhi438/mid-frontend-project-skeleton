@@ -7,8 +7,14 @@
     justify-content: space-between;
 }
 
+header {
+    width: 100%;
+}
+
 .Layout header nav {
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     gap: 40px;
     justify-content: space-between;
@@ -78,18 +84,18 @@ footer {
 
 .cart-holder {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 40px;
+    right: 40px;
     width: 30px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .cart-icon {
     font-size: 24px;
-    cursor: pointer;
     color: rgb(186, 184, 184);
 }
 
@@ -108,7 +114,6 @@ footer {
     top: -5px;
     right: 5px;
     text-align: center;
-    visibility: hidden;
 }
 
 @media (max-width:500px) {

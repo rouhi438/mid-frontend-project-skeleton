@@ -4,6 +4,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
   const addToCart = (event) => {
+    if (!event?.id) return;
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === event.id);
       if (existing) {

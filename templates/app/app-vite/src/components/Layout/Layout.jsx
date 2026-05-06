@@ -4,19 +4,28 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { useCart } from "../../context/CartContext.jsx";
 import "./Layout.css";
 
 export default function Layout() {
   const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
+  const { cartItems } = useCart();
+
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  console.log(cartItems);
   return (
     <div className="Layout">
       <header>
         <nav>
           <div className="cart-holder">
-            <FaShoppingCart className="cart-icon" />
-            <span className="cart-quantity">1</span>
+            <Link to="/cart">
+              <FaShoppingCart className="cart-icon" />
+              {totalQuantity > 0 && (
+                <span className="cart-quantity">{totalQuantity}</span>
+              )}
+            </Link>
           </div>
           <div className="logo-holder">
             <a
