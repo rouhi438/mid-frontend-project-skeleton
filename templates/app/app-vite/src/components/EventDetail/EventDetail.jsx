@@ -3,22 +3,36 @@
 // TODO: fetch the event from GET /events/:id instead of using mock data
 import { Link } from "react-router-dom";
 import "./EventDetail.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useCart } from "../../context/CartContext";
+import { useParams } from "react-router-dom";
+
 export default function EventDetail() {
-  const event = {
-    name: "React Copenhagen Conference 2026",
-    date: "2026-04-15",
-    time: "09:00",
-    venue: "Copenhagen Concert Hall",
-    city: "Copenhagen",
-    description:
-      "The largest React conference in Scandinavia. Two tracks covering the latest in React 19, Server Components, and the evolving frontend ecosystem. Keynotes from core React team members and community leaders.",
-    price: 149,
-    ticketsAvailable: 0,
-    totalTickets: 800,
-    category: "Conference",
-  };
+  const { addToCart } = useCart();
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`http://localhost:3001/events/${id}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch event");
+        }
+        return res.json();
+      })
+      .then((data) => setEvent(data))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) return <p>Loading event...</p>;
+  if (error) return <p>Error:{error}</p>;
+  if (!event) return null;
   return (
     <div className="event-detail-container">
       <div className="detail-header">
