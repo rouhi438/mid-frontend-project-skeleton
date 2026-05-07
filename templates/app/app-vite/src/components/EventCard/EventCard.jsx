@@ -43,6 +43,7 @@ export default function EventCard({ event }) {
       </p>
       <div className="btns">
         <button
+          className="bye-btn"
           type="button"
           onClick={() => addToCart(event)}
           disabled={event.ticketsAvailable === 0}

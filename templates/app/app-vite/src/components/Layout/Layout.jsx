@@ -63,6 +63,7 @@ export default function Layout() {
               <div className="search-holder">
                 <label htmlFor="search">Find Events</label>
                 <input
+                  className="search-input"
                   type="text"
                   id="search"
                   placeholder="Search events..."

@@ -57,7 +57,7 @@ header {
     padding-bottom: 20px;
 }
 
-.search-holder input {
+.search-holder .search-input {
     width: 100%;
     max-width: 250px;
     margin-top: 5px;

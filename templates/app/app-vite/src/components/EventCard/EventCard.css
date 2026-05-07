@@ -22,7 +22,7 @@ a {
     text-decoration: none;
 }
 
-.btns button,
+.btns .bye-btn,
 .btns a {
     width: 100%;
     padding: 10px;
@@ -36,7 +36,7 @@ a {
     text-align: center;
 }
 
-.btns button:hover,
+.btns .bye-btn:hover,
 .btns a:hover {
     border: 1px solid rgb(37, 71, 209);
     cursor: pointer;
