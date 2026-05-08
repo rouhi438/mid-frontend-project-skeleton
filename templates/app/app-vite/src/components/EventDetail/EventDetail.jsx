@@ -74,7 +74,6 @@ export default function EventDetail() {
       </div>
       <h1>{event.name}</h1>
 
-      {/* two columns */}
       <div className="event-detail-top">
         <div className="event-detail-left">
           <p>

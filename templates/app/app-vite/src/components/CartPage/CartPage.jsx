@@ -5,7 +5,7 @@ import paymentImg from "../../assets/payment.png";
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   if (cartItems.length === 0) {
-    return <p>Your cart is empty!</p>;
+    return <p className="empty-desc">Your cart is empty!</p>;
   }
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,

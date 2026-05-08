@@ -49,15 +49,17 @@ export default function Layout() {
                 Events
               </Link>
 
-              {user && (
+              {user ? (
                 <>
                   <span>{user.email}</span>
                   <button onClick={logout}>Sign out</button>
                 </>
+              ) : (
+                <>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Register</Link>
+                </>
               )}
-
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
             </div>
             {location.pathname === "/events" && (
               <div className="search-holder">

@@ -24,11 +24,10 @@ const router = createBrowserRouter([
       { path: "events", element: <EventList /> },
       { path: "events/:id", element: <EventDetail /> },
       { path: "cart", element: <CartPage /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
     ],
   },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "cart", element: <CartPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
