@@ -2,10 +2,21 @@ import { useCart } from "../../context/CartContext";
 import "./CartPage.css";
 import { FaTrash } from "react-icons/fa";
 import paymentImg from "../../assets/payment.png";
+import { Link } from "react-router-dom";
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   if (cartItems.length === 0) {
-    return <p className="empty-desc">Your cart is empty!</p>;
+    return (
+      <div className="empty-cart">
+        <h2>Your cart is empty</h2>
+
+        <p>Add some events to get started.</p>
+
+        <Link to="/events" className="shop-btn">
+          Browse Events
+        </Link>
+      </div>
+    );
   }
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -16,41 +27,43 @@ export default function CartPage() {
       <div className="cart-items">
         <h2>Shopping Cart</h2>
 
-        {cartItems.map((item) => (
-          <div key={item.id} className="cart-item">
-            <h3 className="item-name">{item.name}</h3>
-            <div className="item-left">
-              <div className="price-delete-wrapper">
-                <p className="item-price">€{item.price}</p>
-                <button
-                  className="delete-icon-btn"
-                  onClick={() => removeFromCart(item.id)}
-                  aria-label="Remove item"
-                >
-                  <FaTrash />
-                </button>
-              </div>
+        <div className="cart-item">
+          {cartItems.map((item) => (
+            <div key={item.id} className="cart-item-row">
+              <h3 className="item-name">{item.name}</h3>
+              <div className="item-left">
+                <div className="price-delete-wrapper">
+                  <p className="item-price">€{item.price}</p>
+                  <button
+                    className="delete-icon-btn"
+                    onClick={() => removeFromCart(item.id)}
+                    aria-label="Remove item"
+                  >
+                    <FaTrash />
+                  </button>
+                </div>
 
-              <div className="item-actions">
-                <div className="button-holder">
-                  <button
-                    className="quantity-btn"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                  >
-                    -
-                  </button>
-                  <span className="item-quantity">{item.quantity}</span>
-                  <button
-                    className="quantity-btn"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  >
-                    +
-                  </button>
+                <div className="item-actions">
+                  <div className="button-holder">
+                    <button
+                      className="quantity-btn"
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    >
+                      -
+                    </button>
+                    <span className="item-quantity">{item.quantity}</span>
+                    <button
+                      className="quantity-btn"
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       <div className="cart-summary">
         <div>

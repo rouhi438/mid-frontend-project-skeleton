@@ -5,11 +5,34 @@
 import "./Register.css";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAuth } from "../../context/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setDShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(false);
+  const [email, setEmail] = useState();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { register } = useAuth();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setError("");
+    if (password !== confirmPassword) {
+      setError("Password do not match");
+      return;
+    }
+    try {
+      await register(email, password);
+      navigate("/events");
+    } catch (err) {
+      setError(err.message);
+    }
+    persist;
+  }
   return (
     <>
       <div className="form-container">
@@ -17,13 +40,19 @@ export default function Register() {
           <h1 className="title">Sign up</h1>
           <p className="subtitle">Sign up to continue</p>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="field">
               <input type="text" placeholder="Enter your name" />
             </div>
 
             <div className="field">
-              <input type="email" placeholder="Enter your email" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className="field pass-field">
@@ -32,6 +61,7 @@ export default function Register() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <span
                 className="eye-icon"
@@ -42,18 +72,20 @@ export default function Register() {
             </div>
             <div className="field pass-field">
               <input
-                type={confirmPassword ? "text" : "password"}
+                type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
               <span
                 className="eye-icon"
-                onClick={() => setConfirmPassword(!confirmPassword)}
+                onClick={() => setDShowConfirmPassword(!showConfirmPassword)}
               >
-                {confirmPassword ? <FaEye /> : <FaEyeSlash />}
+                {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
+            {error && <p className="error-message">{error}</p>}
             <div className="remember">
               <input type="checkbox" id="remember" />
               <label htmlFor="remember">Remember me</label>
@@ -80,16 +112,10 @@ export default function Register() {
           </div>
 
           <p className="footer">
-            Already have an account? <a href="#">Login</a>
+            Already have an account? <Link to="/Login">Login</Link>
           </p>
         </div>
       </div>
     </>
-    // <div
-    //   style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    // >
-    //   <h1>Register</h1>
-    //   <p>Register form — coming soon.</p>
-    // </div>
   );
 }

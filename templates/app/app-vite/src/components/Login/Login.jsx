@@ -3,21 +3,43 @@
 // TODO: show a clear error message if login fails
 // TODO: redirect to the event list on success
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      setError("");
+      await login(email, password);
+      navigate("/events");
+    } catch (err) {
+      setError(err.message);
+    }
+  }
   return (
     <div className="form-container">
       <div className="form-card">
         <h1 className="title">Login</h1>
         <p className="subtitle">Login to continue</p>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="field">
-            <input type="email" placeholder="Enter your email" />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
 
           <div className="field pass-field">
@@ -34,6 +56,8 @@ export default function Login() {
               {showPassword ? <FaEye /> : <FaEyeSlash />}
             </span>
           </div>
+
+          {error && <p className="error-message">{error}</p>}
 
           <div className="remember">
             <input type="checkbox" id="remember" />
@@ -61,27 +85,9 @@ export default function Login() {
         </div>
 
         <p className="footer">
-          Don’t have an account? <Link to="/register">Sign up</Link>
+          Don't have an account? <Link to="/register">Sign up</Link>
         </p>
       </div>
     </div>
-    // <div
-    //   style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    // >
-    //   <h1>Login</h1>
-    //   <form
-    //     style={{
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       gap: "10px",
-    //       width: "300px",
-    //     }}
-    //   >
-    //     <input type="email" placeholder="Email" />
-    //     <input type="password" placeholder="Password" />
-
-    //     <button type="submit">Login</button>
-    //   </form>
-    // </div>
   );
 }

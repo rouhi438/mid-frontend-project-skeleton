@@ -3,6 +3,7 @@ import EventCard from "../EventCard/EventCard.jsx";
 import { useOutletContext } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./EventList.css";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 // TODO: split each event below into its own EventCard component
 // TODO: add a "Buy ticket" button to each event card
@@ -11,12 +12,14 @@ import "./EventList.css";
 export default function EventList() {
   const { searchQuery } = useOutletContext();
 
+  const welcomeMessage = localStorage.getItem("welcomeMessage");
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
+  const { user } = useAuth();
 
   useEffect(() => {
     setPage(1);
@@ -47,13 +50,16 @@ export default function EventList() {
   return (
     <>
       <div className="page-change">
-        <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-          Prev
-        </button>
+        <div className="change-page-btns-holder">
+          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+            Prev
+          </button>
 
-        <span>Page {page}</span>
+          <span>Page {page}</span>
 
-        <button onClick={() => setPage(page + 1)}>Next</button>
+          <button onClick={() => setPage(page + 1)}>Next</button>
+        </div>
+        {user && <div className="welcome-banner">{welcomeMessage}</div>}
       </div>
       <ul className="event-list">
         {events.length > 0 ? (

@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .Layout {
     width: 100%;
     min-height: 100vh;
@@ -9,6 +13,8 @@
 
 header {
     width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .Layout header nav {
@@ -16,70 +22,92 @@ header {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    gap: 40px;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    padding: 10px 20px;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 24px;
     position: relative;
 }
 
 .logo-holder {
-    width: 50%;
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+}
 
+.logo {
+    height: auto;
+    max-width: 160px;
+    padding: 0 !important;
 }
 
 .menu-bar {
-    width: 50%;
-    height: 240px;
+    flex: 1 1 auto;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
 }
 
 .link-bar {
-    height: 50%;
     display: flex;
-    gap: 20px;
-    align-items: flex-end;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+}
 
+.link-bar a,
+.link-bar span,
+.logout-link {
+    font-size: 1rem;
+    white-space: nowrap;
+    color: #0066cc;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+}
+
+.link-bar a:hover,
+.logout-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 3px;
+    color: #004499;
 }
 
 .search-holder {
-    height: 50%;
-
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 20px;
+    align-items: flex-start;
+    gap: 6px;
+    max-width: 260px;
 }
 
-.search-holder .search-input {
-    width: 100%;
-    max-width: 250px;
-    margin-top: 5px;
-    padding: 10px;
+.search-holder label {
+    font-size: 0.85rem;
+    color: #555;
+    padding-left: 5px;
 }
 
-main {
+.search-input {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: 0.2s;
 }
 
-footer {
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-top: 1px solid #ddd;
-    background-color: rgb(217, 211, 211);
+.search-input:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
 }
 
 .cart-holder {
@@ -96,29 +124,92 @@ footer {
 
 .cart-icon {
     font-size: 24px;
-    color: rgb(186, 184, 184);
+    color: #333;
+    transition: 0.2s;
 }
 
 .cart-icon:hover {
-    transform: scale(1.15);
-    color: rgb(50, 74, 129);
+    transform: scale(1.1);
+    color: #0066cc;
 }
 
 .cart-quantity {
-    height: 15px;
-    width: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
     border-radius: 50%;
-    background-color: rgb(193, 236, 236);
-    position: absolute;
-    font-size: 12px;
-    top: -5px;
-    right: 5px;
-    text-align: center;
+    background-color: #6da7e1;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    position: relative;
+    padding: 0 4px;
+    top: -40px;
+    right: -6px;
 }
 
-@media (max-width:500px) {
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    flex: 1;
+}
+
+footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
     .Layout header nav {
-        gap: 20px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding: 16px;
     }
 
+    .logo-holder {
+        justify-content: center;
+    }
+
+    .logo {
+        max-width: 140px;
+    }
+
+    .menu-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+
+    .link-bar {
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .search-holder {
+        max-width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 480px) {
+    .link-bar {
+        gap: 12px;
+    }
+
+    .link-bar a,
+    .link-bar span,
+    .logout-link {
+        font-size: 0.9rem;
+    }
 }
