@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../../context/CartContext.jsx";
+import { FaUserCircle } from "react-icons/fa";
 import "./Layout.css";
 
 export default function Layout() {
@@ -49,9 +50,13 @@ export default function Layout() {
                 Events
               </Link>
 
+              {user && <Link to="/orders">My orders</Link>}
               {user ? (
                 <>
-                  <span>{user.name}</span>
+                  <div className="user-icon-holder">
+                    <span>{user.name}</span>
+                    <FaUserCircle className="user-icon" />
+                  </div>
                   <button className="logout-link" onClick={logout}>
                     Sign out
                   </button>
