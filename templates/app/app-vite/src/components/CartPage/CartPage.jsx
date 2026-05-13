@@ -2,9 +2,23 @@ import { useCart } from "../../context/CartContext";
 import "./CartPage.css";
 import { FaTrash } from "react-icons/fa";
 import paymentImg from "../../assets/payment.png";
-import { Link } from "react-router-dom";
+import { Form, Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const handleCheckout = () => {
+    if (!user) {
+      navigate("/login", {
+        state: { from: "/cart", message: "Please login to checkout" },
+      });
+    } else {
+      navigate("/checkout");
+    }
+  };
   if (cartItems.length === 0) {
     return (
       <div className="empty-cart">
@@ -72,7 +86,7 @@ export default function CartPage() {
             <p>Your Order</p>
             {cartItems.map((item) => (
               <p key={item.id}>
-                {item.quantity} × €{item.price}
+                {item.quantity} * €{item.price}
               </p>
             ))}
           </div>
@@ -85,7 +99,7 @@ export default function CartPage() {
           <p>Apply Discount Coupon</p>
           <input className="coupon" type="text" placeholder="XR4352T" />
         </div>
-        <div className="checkout">
+        <div className="checkout" onClick={handleCheckout}>
           <p>Continue to checkout</p>
           <button className="checkout-btn">→</button>
         </div>
