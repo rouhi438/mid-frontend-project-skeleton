@@ -28,7 +28,7 @@
     gap: 15px;
     background: white;
     border-radius: 12px;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     padding: 1rem;
     margin-bottom: 1rem;
     align-items: center;
@@ -38,7 +38,8 @@
 
 .checkout-item-card:hover,
 .checkout-summary:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+    transition: all 0.2s ease;
 }
 
 .item-image {
@@ -85,7 +86,7 @@
     background: #f9fafb;
     border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     align-self: start;
     position: sticky;
     top: 20px;

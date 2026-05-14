@@ -6,8 +6,7 @@ import { useState } from "react";
 import "./CheckoutPage.css";
 
 export function CheckoutPage() {
-  //const { cartItems, totalPrice, clearCart } = useCart();
-  const { cartItems = [], clearCart } = useCart() || {};
+  const { cartItems, clearCart } = useCart();
   const { createOrder, loading, error } = useOrder();
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -49,8 +48,8 @@ export function CheckoutPage() {
     if (!city.trim()) errors.city = "City is required";
     if (!postalCode.trim()) errors.postalCode = "Postal code is required";
     if (!phone.trim()) errors.phone = "Phone number is required";
-    else if (!/^\d{10,}$/.test(phone.replace(/\s/g, "")))
-      errors.phone = "Enter a valid Phone number (at least 10 digits)";
+    else if (!/^\d{8,}$/.test(phone.replace(/\s/g, "")))
+      errors.phone = "Enter a valid Phone number (at least 8 digits)";
     if (!payMethod) errors.payMethod = "Select a payment method";
     setFormErrors(errors);
     return Object.keys(errors).length === 0;

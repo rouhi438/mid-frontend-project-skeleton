@@ -1,20 +1,14 @@
-import { useState, useEffect } from "react";
-
 import { Link } from "react-router-dom";
 import { useOrder } from "../../context/OrderContext";
 import { useAuth } from "../../context/AuthContext";
 import "./OrdersPage.css";
 
 export function OrdersPage() {
-  const { getUserOrders, loading, error } = useOrder();
+  const { orders, loading, error } = useOrder();
   const { user } = useAuth();
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-    if (user) {
-      setOrders(getUserOrders());
-    }
-  }, [user, getUserOrders]);
+  const userOrders = user
+    ? orders.filter((order) => order.userId === user.id)
+    : [];
 
   if (!user) {
     return <div className="orders-container">Please login to view orders.</div>;
@@ -23,7 +17,7 @@ export function OrdersPage() {
 
   if (error) return <div className="order-container error">{error}</div>;
 
-  if (orders.length === 0) {
+  if (userOrders.length === 0) {
     return (
       <div className="orders-container empty">
         <h2>No order yet</h2>
@@ -35,7 +29,7 @@ export function OrdersPage() {
   return (
     <div className="orders-container">
       <h2>My orders</h2>
-      {orders.map((order) => (
+      {userOrders.map((order) => (
         <div key={order.id} className="order-card">
           <div className="order-header">
             <span>Order #{order.id}</span>
@@ -54,7 +48,7 @@ export function OrdersPage() {
             ))}
           </div>
           <div className="order-footer">
-            <strong> Total: 4{order.total.toFixed(2)}</strong>
+            <strong> Total:{order.total.toFixed(2)}</strong>
             <span className="order-status">{order.status}</span>
           </div>
         </div>

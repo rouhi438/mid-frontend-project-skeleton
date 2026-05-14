@@ -55,7 +55,7 @@ export function OrderProvider({ children }) {
   }
   function getUserOrders() {
     if (!user) return [];
-    return orders.filter((order) => order.userId === user.Id);
+    return orders.filter((order) => order.userId === user.id);
   }
   function getOrderById(orderId) {
     return orders.find((order) => order.id === parseInt(orderId));
