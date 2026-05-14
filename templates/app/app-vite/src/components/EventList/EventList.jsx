@@ -1,30 +1,73 @@
-import events from "../../data/events.js";
+//import events from "../../data/events.js";
+import EventCard from "../EventCard/EventCard.jsx";
+import { useOutletContext } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "./EventList.css";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 // TODO: split each event below into its own EventCard component
 // TODO: add a "Buy ticket" button to each event card
 // TODO: replace the mock data import with a fetch call to GET /events
 
 export default function EventList() {
+  const { searchQuery } = useOutletContext();
+
+  const welcomeMessage = localStorage.getItem("welcomeMessage");
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [page, setPage] = useState(1);
+  const [limit] = useState(20);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetch(
+      `http://localhost:3001/events?q=${searchQuery}&_page=${page}&_limit=${limit}`,
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch events");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setEvents(data);
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
+  }, [searchQuery, page]);
+  if (loading) return <p>Loading events...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
-    <ul>
-      {events.map((event) => (
-        <li key={event.id}>
-          <h2>{event.name}</h2>
-          <p>
-            {event.date} at {event.time}
-          </p>
-          <p>
-            {event.venue}, {event.city}
-          </p>
-          <p>{event.category}</p>
-          <p>{event.price === 0 ? "Free" : `€${event.price}`}</p>
-          <p>
-            {event.ticketsAvailable === 0
-              ? "Sold out"
-              : `${event.ticketsAvailable} tickets left`}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <>
+      <div className="page-change">
+        <div className="change-page-btns-holder">
+          <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+            Prev
+          </button>
+
+          <span>Page {page}</span>
+
+          <button onClick={() => setPage(page + 1)}>Next</button>
+        </div>
+        {user && <div className="welcome-banner">{welcomeMessage}</div>}
+      </div>
+      <ul className="event-list">
+        {events.length > 0 ? (
+          events.map((event) => <EventCard key={event.id} event={event} />)
+        ) : (
+          <p>No events found</p>
+        )}
+      </ul>
+    </>
   );
 }
